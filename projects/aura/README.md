@@ -82,6 +82,10 @@ To enable automatic deploys to Render:
 
 When you push to `main`, the workflow will publish the image and trigger a deploy. Your Render service URL will be the public demo link (e.g. `https://your-service.onrender.com`).
 
+Live demo URL
+-------------
+https://pingfromheart.onrender.com
+
 If you prefer a different host (Fly, Railway, AWS), I can add deployment steps for that provider.
 
 Notes

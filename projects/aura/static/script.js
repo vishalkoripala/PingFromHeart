@@ -27,7 +27,7 @@ function drawHeartStep(){
     else ctx.lineTo(centerX + x, centerY - y);
   }
   ctx.stroke();
-  drawIndex += 3;
+  drawIndex += 6; // faster drawing for snappier UX
   if(drawIndex < points.length) requestAnimationFrame(drawHeartStep);
   else requestAnimationFrame(() => showImageAndText());
 }
@@ -44,21 +44,22 @@ function showImageAndText(){
   ctx.stroke();
 
   if(uploadedImage){
-    // compute image size to fit inside heart (about 260x260)
+    // compute image size to fit inside heart (about 220x220)
     let iw = uploadedImage.width, ih = uploadedImage.height;
-    let max = Math.min(260, Math.max(iw, ih));
-    let scale = 260/Math.max(iw, ih);
+    let scale = 220/Math.max(iw, ih);
+    if(scale > 1) scale = 1;
     let dw = iw*scale, dh = ih*scale;
     let ix = centerX - dw/2, iy = centerY - dh/2 - 20; // slightly up center
     ctx.drawImage(uploadedImage, ix, iy, dw, dh);
     // text below image
-    ctx.fillStyle='white'; ctx.font='20px Arial'; ctx.textAlign='center';
-    ctx.fillText(uploadedMessage, centerX, iy + dh + 30);
+    ctx.fillStyle='white'; ctx.font='18px Arial'; ctx.textAlign='center';
+    ctx.fillText(uploadedMessage, centerX, iy + dh + 26);
   }
 }
 
 // form handling
 const form = document.getElementById('uploadForm');
+const loader = document.getElementById('loader');
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const msg = document.getElementById('message').value || 'I LOVE YOU JAANU💋';
@@ -66,6 +67,8 @@ form.addEventListener('submit', async (e)=>{
   const fd = new FormData();
   fd.append('message', msg);
   if(imgInput.files[0]) fd.append('image', imgInput.files[0]);
+  // show loader while uploading and loading the image
+  if(loader) loader.style.display = 'block';
   const res = await fetch('/upload',{method:'POST', body:fd});
   const json = await res.json();
   uploadedMessage = json.message;
@@ -73,13 +76,24 @@ form.addEventListener('submit', async (e)=>{
     const imageUrl = json.image;
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = ()=>{ uploadedImage = img; showImageAndText(); };
+    // start the heart animation only after the image is loaded so
+    // the final frame can display the image + text together
+    img.onload = ()=>{
+      uploadedImage = img;
+      if(loader) loader.style.display = 'none';
+      drawIndex = 0;
+      clear();
+      requestAnimationFrame(drawHeartStep);
+    };
     img.src = imageUrl;
   } else{
-    uploadedImage = null; showImageAndText();
+    if(loader) loader.style.display = 'none';
+    uploadedImage = null;
+    drawIndex = 0;
+    clear();
+    requestAnimationFrame(drawHeartStep);
   }
 });
 
-// start
+// start state: show blank canvas until user submits the form
 clear();
-requestAnimationFrame(drawHeartStep);

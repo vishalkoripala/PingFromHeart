@@ -1,6 +1,8 @@
 Aura Love Heart
 ================
 
+[![CI](https://github.com/vishalkoripala/PingFromHeart/actions/workflows/build-and-push-image.yml/badge.svg)](https://github.com/vishalkoripala/PingFromHeart/actions/workflows/build-and-push-image.yml) [![Demo](https://img.shields.io/badge/demo-online-brightgreen)](https://pingfromheart.onrender.com) [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org)
+
 This small Python application draws an animated heart and displays a user-provided image and message.
 
 Requirements
@@ -107,7 +109,19 @@ Live demo URL
 -------------
 https://pingfromheart.onrender.com
 
+Screenshot
+----------
+If you'd like a screenshot on this page, add an image at `docs/screenshot.png` and it will render here:
+
+![App screenshot](docs/screenshot.png)
+
 If you prefer a different host (Fly, Railway, AWS), I can add deployment steps for that provider.
+
+Troubleshooting
+---------------
+- Pillow install/build errors: on Linux install `libjpeg-dev zlib1g-dev` (Debian/Ubuntu) before `pip install -r requirements.txt`. On Windows prefer installing wheels or use the included Dockerfile to avoid system dependency issues.
+- Render deployment: if Render fails to build, ensure the Service Root Directory is set to `projects/aura` (or place a root-level `Dockerfile`).
+- Image upload limits: the web service may reject large files; increase `MAX_CONTENT_LENGTH` in `app.py` if you need larger uploads.
 
 Notes
 -----

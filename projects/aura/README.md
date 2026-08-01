@@ -31,6 +31,27 @@ python love.py
 python love.py "Happy Anniversary" "C:\path\to\image.jpg"
 ```
 
+Run the web app (browser)
+------------------------
+This repository also includes a small Flask-based web UI so the app can be used from a browser. After creating the virtual environment and installing dependencies (see Quick start), start the web server:
+
+PowerShell (development):
+
+```powershell
+$env:FLASK_APP='app.py'
+$env:FLASK_ENV='development'
+flask run --host=0.0.0.0 --port=5000
+```
+
+Or run with Gunicorn for a production-like server:
+
+```powershell
+gunicorn app:app -b 0.0.0.0:5000
+```
+
+Open `http://localhost:5000` in a browser. The live demo is available at https://pingfromheart.onrender.com
+
+
 Build a Windows executable
 --------------------------
 1. Install PyInstaller (already in `requirements.txt`):

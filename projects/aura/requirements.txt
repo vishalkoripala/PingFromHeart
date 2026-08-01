@@ -1,0 +1,5 @@
+Pillow>=9.0.0
+# Optional: include PyInstaller to build a single executable
+pyinstaller>=5.0
+Flask>=2.0
+Werkzeug>=2.0

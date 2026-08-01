@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <title>Aura Love Heart (Mobile)</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Aura Love Heart</h1>
+    <canvas id="heartCanvas" width="360" height="640"></canvas>
+
+    <form id="uploadForm">
+      <input type="text" id="message" name="message" placeholder="Enter message" />
+      <input type="file" id="image" name="image" accept="image/*" />
+      <button type="submit">Show</button>
+    </form>
+
+    <p class="hint">Open this page on your phone and use the form to show image inside the heart.</p>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
